@@ -7,5 +7,10 @@
         "project": "./tsconfig.json"
       }
     }
-  ]
+  ],
+  "rules": {
+    "prettier/prettier": {
+      "endOfLine": "auto"
+    }
+  }
 }
