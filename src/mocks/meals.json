@@ -1,0 +1,242 @@
+{
+  "week": {
+    "monday": {
+      "meals": [
+        {
+          "id": 1100990,
+          "imageType": "jpg",
+          "title": "Blueberry, Chocolate & Cocao Superfood Pancakes - Gluten-Free/Paleo/Vegan",
+          "readyInMinutes": 30,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/blueberry-chocolate-cocao-superfood-pancakes-gluten-free-paleo-vegan-1100990"
+        },
+        {
+          "id": 643642,
+          "imageType": "jpg",
+          "title": "Macaroni Pasta with Fresh Tomatoes, Zucchini and Artichokes",
+          "readyInMinutes": 25,
+          "servings": 8,
+          "sourceUrl": "https://spoonacular.com/macaroni-pasta-with-fresh-tomatoes-zucchini-and-artichokes-643642"
+        },
+        {
+          "id": 715522,
+          "imageType": "jpg",
+          "title": "Chicken Salad with Apples and Celery",
+          "readyInMinutes": 45,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/chicken-salad-with-apples-and-celery-715522"
+        }
+      ],
+      "nutrients": {
+        "calories": 1999.92,
+        "protein": 124.81,
+        "fat": 98.87,
+        "carbohydrates": 162.08
+      }
+    },
+    "tuesday": {
+      "meals": [
+        {
+          "id": 665691,
+          "imageType": "jpg",
+          "title": "Zucchini & Basil Frittata",
+          "readyInMinutes": 45,
+          "servings": 3,
+          "sourceUrl": "https://spoonacular.com/zucchini-basil-frittata-665691"
+        },
+        {
+          "id": 1697583,
+          "imageType": "jpg",
+          "title": "Crispy Ravioli Formaggi",
+          "readyInMinutes": 30,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/crispy-ravioli-formaggi-1697583"
+        },
+        {
+          "id": 661250,
+          "imageType": "jpg",
+          "title": "Spinach & Toasted Pumpkin Seed Pesto Pasta",
+          "readyInMinutes": 45,
+          "servings": 6,
+          "sourceUrl": "https://spoonacular.com/spinach-toasted-pumpkin-seed-pesto-pasta-661250"
+        }
+      ],
+      "nutrients": {
+        "calories": 2000.09,
+        "protein": 66.78,
+        "fat": 137.07,
+        "carbohydrates": 129.8
+      }
+    },
+    "wednesday": {
+      "meals": [
+        {
+          "id": 634882,
+          "imageType": "jpg",
+          "title": "Best Breakfast Burrito",
+          "readyInMinutes": 45,
+          "servings": 4,
+          "sourceUrl": "https://spoonacular.com/best-breakfast-burrito-634882"
+        },
+        {
+          "id": 157960,
+          "imageType": "jpg",
+          "title": "Portobello Baked Eggs",
+          "readyInMinutes": 20,
+          "servings": 4,
+          "sourceUrl": "https://spoonacular.com/portobello-baked-eggs-157960"
+        },
+        {
+          "id": 663357,
+          "imageType": "jpg",
+          "title": "The Unagi Burger",
+          "readyInMinutes": 45,
+          "servings": 4,
+          "sourceUrl": "https://spoonacular.com/the-unagi-burger-663357"
+        }
+      ],
+      "nutrients": {
+        "calories": 1999.9,
+        "protein": 97.75,
+        "fat": 113.9,
+        "carbohydrates": 146.99
+      }
+    },
+    "thursday": {
+      "meals": [
+        {
+          "id": 633594,
+          "imageType": "jpg",
+          "title": "Baked Eggs and Bacon Cream In Spinach Fettuccine Nests",
+          "readyInMinutes": 45,
+          "servings": 3,
+          "sourceUrl": "https://spoonacular.com/baked-eggs-and-bacon-cream-in-spinach-fettuccine-nests-633594"
+        },
+        {
+          "id": 641408,
+          "imageType": "jpg",
+          "title": "Delicious Sausage & Peppers",
+          "readyInMinutes": 30,
+          "servings": 8,
+          "sourceUrl": "https://spoonacular.com/delicious-sausage-peppers-641408"
+        },
+        {
+          "id": 642895,
+          "imageType": "jpg",
+          "title": "Fire-Breathing Dragon Pasta",
+          "readyInMinutes": 45,
+          "servings": 6,
+          "sourceUrl": "https://spoonacular.com/fire-breathing-dragon-pasta-642895"
+        }
+      ],
+      "nutrients": {
+        "calories": 1999.92,
+        "protein": 86.8,
+        "fat": 147.51,
+        "carbohydrates": 83.44
+      }
+    },
+    "friday": {
+      "meals": [
+        {
+          "id": 664280,
+          "imageType": "jpg",
+          "title": "Vanilla Bean Cherry Granola Bars",
+          "readyInMinutes": 45,
+          "servings": 8,
+          "sourceUrl": "https://spoonacular.com/vanilla-bean-cherry-granola-bars-664280"
+        },
+        {
+          "id": 157399,
+          "imageType": "jpg",
+          "title": "Crispy-Crowned Guacamole Fish Fillets",
+          "readyInMinutes": 30,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/crispy-crowned-guacamole-fish-fillets-157399"
+        },
+        {
+          "id": 654953,
+          "imageType": "jpg",
+          "title": "Pasta with Spicy Sausage & Rapini",
+          "readyInMinutes": 45,
+          "servings": 8,
+          "sourceUrl": "https://spoonacular.com/pasta-with-spicy-sausage-rapini-654953"
+        }
+      ],
+      "nutrients": {
+        "calories": 1999.92,
+        "protein": 110.62,
+        "fat": 110.02,
+        "carbohydrates": 159.02
+      }
+    },
+    "saturday": {
+      "meals": [
+        {
+          "id": 645315,
+          "imageType": "jpg",
+          "title": "Greek Inspired Spring Omelet",
+          "readyInMinutes": 20,
+          "servings": 1,
+          "sourceUrl": "https://spoonacular.com/greek-inspired-spring-omelet-645315"
+        },
+        {
+          "id": 1697583,
+          "imageType": "jpg",
+          "title": "Crispy Ravioli Formaggi",
+          "readyInMinutes": 30,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/crispy-ravioli-formaggi-1697583"
+        },
+        {
+          "id": 663150,
+          "imageType": "jpg",
+          "title": "Thai Savory Brown Fried Rice",
+          "readyInMinutes": 45,
+          "servings": 4,
+          "sourceUrl": "https://spoonacular.com/thai-savory-brown-fried-rice-663150"
+        }
+      ],
+      "nutrients": {
+        "calories": 2000.06,
+        "protein": 59.67,
+        "fat": 142.32,
+        "carbohydrates": 131.17
+      }
+    },
+    "sunday": {
+      "meals": [
+        {
+          "id": 644848,
+          "imageType": "jpg",
+          "title": "Gluten Free Pancakes",
+          "readyInMinutes": 45,
+          "servings": 12,
+          "sourceUrl": "https://spoonacular.com/gluten-free-pancakes-644848"
+        },
+        {
+          "id": 1697583,
+          "imageType": "jpg",
+          "title": "Crispy Ravioli Formaggi",
+          "readyInMinutes": 30,
+          "servings": 2,
+          "sourceUrl": "https://spoonacular.com/crispy-ravioli-formaggi-1697583"
+        },
+        {
+          "id": 662694,
+          "imageType": "jpg",
+          "title": "Swordfish with Orange Caramel Sauce",
+          "readyInMinutes": 45,
+          "servings": 4,
+          "sourceUrl": "https://spoonacular.com/swordfish-with-orange-caramel-sauce-662694"
+        }
+      ],
+      "nutrients": {
+        "calories": 2000.07,
+        "protein": 78.75,
+        "fat": 138.73,
+        "carbohydrates": 112.64
+      }
+    }
+  }
+}

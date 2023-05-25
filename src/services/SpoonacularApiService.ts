@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { MealPlan, MealPlanRequest } from '@/types/Meal';
+import { Diet, MealPlan, MealPlanRequest, MealPlanWeek, TimeFrame } from '@/types/Spoonacular';
 
 const BASE_URL = 'https://api.spoonacular.com';
 
@@ -13,10 +13,10 @@ const instance = axios.create({
   responseType: 'json',
 });
 
-instance.interceptors.request.use((request) => {
-  console.log('Starting Request', request);
-  return request;
-});
+// instance.interceptors.request.use((request) => {
+//   console.log('Starting Request', request);
+//   return request;
+// });
 
 export default {
   async call<T>(method: string, url: string, data?: Record<string, unknown>): Promise<AxiosResponse<T>> {
@@ -28,15 +28,15 @@ export default {
   },
   async getMealPlan(
     { timeFrame, calories, diet, exclude }: MealPlanRequest = {
-      timeFrame: 'day',
+      timeFrame: TimeFrame.Day,
       calories: 2000,
-      diet: '',
+      diet: Diet.None,
       exclude: [],
     }
   ) {
     let params = `?&timeFrame=${timeFrame}&targetCalories=${calories}`;
 
-    if (diet) {
+    if (diet !== Diet.None) {
       params += `&diet=${diet}`;
     }
 
@@ -44,6 +44,9 @@ export default {
       params += `&exclude=${exclude.toString()}`;
     }
 
-    return instance.get<MealPlan>(`/mealplanner/generate${params}`);
+    return instance.get<MealPlanWeek | MealPlan>(`/mealplanner/generate${params}`);
+  },
+  async getRecipeInformation(id: number) {
+    return instance.get(`/recipes/${id}/information`);
   },
 };
