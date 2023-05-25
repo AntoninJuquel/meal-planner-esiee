@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MealPlannerScreen from '@/screens/MealPlannerScreen';
+import ProfileScreen from '@/screens/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -9,11 +9,8 @@ function RootStackNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="MealPlannerScreen"
-        component={MealPlannerScreen}
-        options={{
-          headerShown: false,
-        }}
+        name="ProfileScreen"
+        component={ProfileScreen}
       />
     </Stack.Navigator>
   );
