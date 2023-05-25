@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, IconButton, Menu, Button, Text } from 'react-native-paper';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Gender } from '@/types/Gender';
 import { ActivityLevel } from '@/types/ActivityLevel';
@@ -14,6 +15,8 @@ const genderIcons: Record<Gender, string> = {
 };
 
 export default function ProfileScreen() {
+  const insets = useSafeAreaInsets();
+
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<Gender>(Gender.Male);
   const [height, setHeight] = useState('');
@@ -62,7 +65,7 @@ export default function ProfileScreen() {
   }, [age, height, weight, gender, activityLevel, goal]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <TextInput label="Age" value={age} onChangeText={setAge} keyboardType="decimal-pad" />
       <IconButton icon={genderIcons[gender]} onPress={toggleGender} />
       <TextInput

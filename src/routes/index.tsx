@@ -1,25 +1,28 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import ProfileScreen from '@/screens/ProfileScreen';
 
-const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-function RootStackNavigator() {
+function RootTabs() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ProfileScreen"
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Profile"
         component={ProfileScreen}
+        options={{
+          tabBarIcon: 'account',
+        }}
       />
-    </Stack.Navigator>
+    </Tab.Navigator>
   );
 }
 
 export default function Routes() {
   return (
     <NavigationContainer>
-      <RootStackNavigator />
+      <RootTabs />
     </NavigationContainer>
   );
 }
