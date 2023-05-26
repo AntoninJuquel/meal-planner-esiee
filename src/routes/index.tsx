@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import HealthGoalScreen from '@/screens/HealthGoalScreen';
+import MealPlanningScreen from '@/screens/MealPlanningScreen';
 import FoodDatabaseScreen from '@/screens/FoodStack/FoodDatabaseScreen';
 import FoodDetailScreen from '@/screens/FoodStack/FoodDetailScreen';
 
@@ -52,7 +53,7 @@ function RootTabs() {
       />
       <Tab.Screen
         name="Meal Planning"
-        component={HealthGoalScreen}
+        component={MealPlanningScreen}
         options={{
           tabBarIcon: 'calendar',
         }}
