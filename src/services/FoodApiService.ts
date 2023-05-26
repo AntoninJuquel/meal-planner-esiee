@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-const BASE_URL = 'https://api.edamam.com/api/';
+import { RecipeRequest, RecipeResponse } from '@/types/FoodApi';
+
+const BASE_URL = 'https://api.spoonacular.com/';
 
 const instance = axios.create({
   baseURL: BASE_URL,
@@ -18,5 +20,17 @@ export default {
       url,
       data,
     });
+  },
+  async getRecipes(
+    { query, offset, number }: RecipeRequest = {
+      query: '',
+      offset: 0,
+      number: 5,
+    }
+  ) {
+    return this.call<RecipeResponse>(
+      'GET',
+      `recipes/complexSearch?query=${query}&addRecipeNutrition=true&number=${number}&offset=${offset}`
+    );
   },
 };
