@@ -6,7 +6,14 @@ import HealthGoalScreen from '@/screens/HealthGoalScreen';
 import FoodDatabaseScreen from '@/screens/FoodStack/FoodDatabaseScreen';
 import FoodDetailScreen from '@/screens/FoodStack/FoodDetailScreen';
 
-const Stack = createNativeStackNavigator();
+import { Recipe } from '@/types/FoodApi';
+
+type FoodStackParamList = {
+  'Food database': undefined;
+  'Food detail': { recipe: Recipe };
+};
+
+const Stack = createNativeStackNavigator<FoodStackParamList>();
 
 function FoodStack() {
   return (

@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { Button, TextInput, Snackbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { AxiosError } from 'axios';
 
 import FoodApiService from '@/services/FoodApiService';
 
-import FoodCard from '@/components/FoodCard';
-import { fromRecipeInformation } from '@/utils/foodMaker';
+import FoodCard from '@/components/RecipeCard';
 import { Recipe } from '@/types/FoodApi';
-import { AxiosError } from 'axios';
 
 export default function FoodDatabaseScreen() {
   const insets = useSafeAreaInsets();
@@ -41,8 +40,8 @@ export default function FoodDatabaseScreen() {
       </Button>
 
       <FlatList
-        data={recipes.map(fromRecipeInformation)}
-        renderItem={({ item }) => <FoodCard food={item} />}
+        data={recipes}
+        renderItem={({ item }) => <FoodCard recipe={item} />}
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
       />

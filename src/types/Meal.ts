@@ -1,4 +1,4 @@
-import { Food } from './Food';
+import { Recipe } from './FoodApi';
 
 export enum Days {
   MONDAY = 'monday',
@@ -18,24 +18,10 @@ export enum MealCategory {
 }
 
 export type DailyMeal = {
-  [MealCategory.BREAKFAST]: Food[];
-  [MealCategory.LUNCH]: Food[];
-  [MealCategory.DINNER]: Food[];
-  [MealCategory.SNACK]: Food[];
-  calories: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-};
-
-export type WeeklyMealPlan = {
-  [Days.MONDAY]: DailyMeal;
-  [Days.TUESDAY]: DailyMeal;
-  [Days.WEDNESDAY]: DailyMeal;
-  [Days.THURSDAY]: DailyMeal;
-  [Days.FRIDAY]: DailyMeal;
-  [Days.SATURDAY]: DailyMeal;
-  [Days.SUNDAY]: DailyMeal;
+  [MealCategory.BREAKFAST]: Recipe[];
+  [MealCategory.LUNCH]: Recipe[];
+  [MealCategory.DINNER]: Recipe[];
+  [MealCategory.SNACK]: Recipe[];
   calories: number;
   protein: number;
   fat: number;
