@@ -54,7 +54,7 @@ export default function MealPlanningScreen() {
               <RecipeCard
                 recipe={item}
                 deleteAction={() => {
-                  removeMeal(selectedDate, MealCategory.BREAKFAST, item);
+                  removeMeal(selectedDate, mealCategory, item);
                 }}
               />
             )}
