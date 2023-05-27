@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Card, Chip } from 'react-native-paper';
+import { Card, Chip, IconButton } from 'react-native-paper';
 
 import { Recipe } from '@/types/FoodApi';
 import { summarizeRecipe } from '@/utils/recipes';
@@ -9,9 +9,11 @@ import AddMealPlanDialog from './AddMealPlanDialog';
 
 type Props = {
   recipe: Recipe;
+  addAction?: boolean;
+  deleteAction?: () => void;
 };
 
-export default function FoodCard({ recipe }: Props) {
+export default function RecipeCard({ recipe, addAction, deleteAction }: Props) {
   const recipeSummary = summarizeRecipe(recipe);
 
   const { addMeal } = useMealPlanner();
@@ -25,13 +27,24 @@ export default function FoodCard({ recipe }: Props) {
         <Chip icon="clock-outline">{recipeSummary.readyInMinutes} minutes</Chip>
       </Card.Content>
       <Card.Content style={styles.chips}>
-        <Chip>{recipeSummary.calories.toFixed(0)} calories</Chip>
-        <Chip>{recipeSummary.fat.toFixed(0)}g fat</Chip>
-        <Chip>{recipeSummary.carbs.toFixed(0)}g carbs</Chip>
-        <Chip>{recipeSummary.protein.toFixed(0)}g protein</Chip>
+        <Chip compact textStyle={styles.chipText}>
+          {recipeSummary.calories.toFixed(0)} cal
+        </Chip>
+        <Chip compact textStyle={styles.chipText}>
+          {recipeSummary.fat.toFixed(0)}g fat
+        </Chip>
+        <Chip compact textStyle={styles.chipText}>
+          {recipeSummary.carbs.toFixed(0)}g carbs
+        </Chip>
+        <Chip compact textStyle={styles.chipText}>
+          {recipeSummary.protein.toFixed(0)}g protein
+        </Chip>
       </Card.Content>
       <Card.Actions>
-        <AddMealPlanDialog onAddMeal={(date, mealCategory) => addMeal(date, mealCategory, recipe)} />
+        {addAction ? (
+          <AddMealPlanDialog onAddMeal={(date, mealCategory) => addMeal(date, mealCategory, recipe)} />
+        ) : null}
+        {deleteAction ? <IconButton icon="delete" onPress={deleteAction} /> : null}
       </Card.Actions>
     </Card>
   );
@@ -43,5 +56,8 @@ const styles = StyleSheet.create({
     gap: 8,
     marginTop: 8,
     flexWrap: 'wrap',
+  },
+  chipText: {
+    fontSize: 12,
   },
 });
