@@ -1,4 +1,4 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigatorScreenParams } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,9 +8,10 @@ import FoodDatabaseScreen from '@/screens/FoodStack/FoodDatabaseScreen';
 import FoodDetailScreen from '@/screens/FoodStack/FoodDetailScreen';
 
 import { Recipe } from '@/types/FoodApi';
+import { MealCategory } from '@/types/Meal';
 
-type FoodStackParamList = {
-  'Food database': undefined;
+export type FoodStackParamList = {
+  'Food database': { date: Date; mealCategory: MealCategory } | undefined;
   'Food detail': { recipe: Recipe };
 };
 
@@ -31,7 +32,13 @@ function FoodStack() {
   );
 }
 
-const Tab = createMaterialBottomTabNavigator();
+export type RootTabParamList = {
+  'Health Goals': undefined;
+  FoodStack: NavigatorScreenParams<FoodStackParamList>;
+  'Meal Planning': { date: Date; mealCategory: MealCategory } | undefined;
+};
+
+const Tab = createMaterialBottomTabNavigator<RootTabParamList>();
 
 function RootTabs() {
   return (

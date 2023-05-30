@@ -6,11 +6,12 @@ import { DatePickerModal } from 'react-native-paper-dates';
 import { MealCategory } from '@/types/Meal';
 
 type Props = {
+  visible: boolean;
+  close: () => void;
   onAddMeal: (date: Date, mealCategory: MealCategory) => void;
 };
 
-export default function AddMealPlanDialog({ onAddMeal }: Props) {
-  const [visible, setVisible] = useState(false);
+export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) {
   const [inputDate, setInputDate] = useState<Date | undefined>(new Date());
   const [inputDateOpen, setInputDateOpen] = useState(false);
   const [mealCategory, setMealCategory] = useState<MealCategory>(MealCategory.BREAKFAST);
@@ -26,9 +27,6 @@ export default function AddMealPlanDialog({ onAddMeal }: Props) {
     setMealCategoryMenuVisible(false);
   };
 
-  const open = () => setVisible(true);
-  const close = () => setVisible(false);
-
   const handleAddMeal = () => {
     if (!inputDate) return;
     onAddMeal(inputDate, mealCategory);
@@ -36,44 +34,39 @@ export default function AddMealPlanDialog({ onAddMeal }: Props) {
   };
 
   return (
-    <>
-      <Button icon="plus" onPress={open}>
-        Add to meal plan
-      </Button>
-      <Portal>
-        <Dialog visible={visible} onDismiss={close}>
-          <Dialog.Title>Add to meal plan</Dialog.Title>
-          <Dialog.Content style={{ alignItems: 'center' }}>
-            <Button onPress={() => setInputDateOpen(true)} uppercase={false} mode="outlined">
-              {inputDate?.toLocaleDateString() ?? 'Select date'}
-            </Button>
-            <DatePickerModal
-              locale="en"
-              mode="single"
-              visible={inputDateOpen}
-              onDismiss={() => setInputDateOpen(false)}
-              date={inputDate}
-              onConfirm={(e) => selectDate(e.date)}
-            />
-            <Text style={styles.text} variant="titleLarge">
-              {mealCategory}
-            </Text>
-            <Menu
-              visible={mealCategoryMenuVisible}
-              onDismiss={() => setMealCategoryMenuVisible(false)}
-              anchor={<Button onPress={() => setMealCategoryMenuVisible(true)}>choose meal</Button>}>
-              {Object.values(MealCategory).map((meal) => (
-                <Menu.Item key={meal} onPress={() => selectMealCategory(meal)} title={meal} />
-              ))}
-            </Menu>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={close}>Cancel</Button>
-            <Button onPress={handleAddMeal}>Add</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-    </>
+    <Portal>
+      <Dialog visible={visible} onDismiss={close}>
+        <Dialog.Title>Add to meal plan</Dialog.Title>
+        <Dialog.Content style={{ alignItems: 'center' }}>
+          <Button onPress={() => setInputDateOpen(true)} uppercase={false} mode="outlined">
+            {inputDate?.toLocaleDateString() ?? 'Select date'}
+          </Button>
+          <DatePickerModal
+            locale="en"
+            mode="single"
+            visible={inputDateOpen}
+            onDismiss={() => setInputDateOpen(false)}
+            date={inputDate}
+            onConfirm={(e) => selectDate(e.date)}
+          />
+          <Text style={styles.text} variant="titleLarge">
+            {mealCategory}
+          </Text>
+          <Menu
+            visible={mealCategoryMenuVisible}
+            onDismiss={() => setMealCategoryMenuVisible(false)}
+            anchor={<Button onPress={() => setMealCategoryMenuVisible(true)}>choose meal</Button>}>
+            {Object.values(MealCategory).map((meal) => (
+              <Menu.Item key={meal} onPress={() => selectMealCategory(meal)} title={meal} />
+            ))}
+          </Menu>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <Button onPress={close}>Cancel</Button>
+          <Button onPress={handleAddMeal}>Add</Button>
+        </Dialog.Actions>
+      </Dialog>
+    </Portal>
   );
 }
 

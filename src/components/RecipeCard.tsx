@@ -1,22 +1,17 @@
 import { StyleSheet } from 'react-native';
-import { Card, Chip, IconButton } from 'react-native-paper';
+import { Button, Card, Chip, IconButton } from 'react-native-paper';
 
 import { Recipe } from '@/types/FoodApi';
 import { summarizeRecipe } from '@/utils/recipes';
-import { useMealPlanner } from '@/context/MealPlannerContext';
-
-import AddMealPlanDialog from './AddMealPlanDialog';
 
 type Props = {
   recipe: Recipe;
-  addAction?: boolean;
+  addAction?: (recipe: Recipe) => void;
   deleteAction?: () => void;
 };
 
 export default function RecipeCard({ recipe, addAction, deleteAction }: Props) {
   const recipeSummary = summarizeRecipe(recipe);
-
-  const { addMeal } = useMealPlanner();
 
   return (
     <Card>
@@ -42,7 +37,9 @@ export default function RecipeCard({ recipe, addAction, deleteAction }: Props) {
       </Card.Content>
       <Card.Actions>
         {addAction ? (
-          <AddMealPlanDialog onAddMeal={(date, mealCategory) => addMeal(date, mealCategory, recipe)} />
+          <Button icon="plus" onPress={() => addAction(recipe)}>
+            Add to meal plan
+          </Button>
         ) : null}
         {deleteAction ? <IconButton icon="delete" onPress={deleteAction} /> : null}
       </Card.Actions>

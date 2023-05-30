@@ -1,22 +1,38 @@
 import { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Text, Button, Menu, Chip } from 'react-native-paper';
+import { Button, Menu, Chip } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import type { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
 
 import { useMealPlanner } from '@/context/MealPlannerContext';
 import DateWheel from '@/components/DateWheel';
 import { MealCategory } from '@/types/Meal';
 import RecipeCard from '@/components/RecipeCard';
+import { RootTabParamList } from '@/routes';
 
 export default function MealPlanningScreen() {
   const insets = useSafeAreaInsets();
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [mealCategory, setMealCategory] = useState<MealCategory>(MealCategory.BREAKFAST);
+  const { params } = useRoute<RouteProp<RootTabParamList, 'Meal Planning'>>();
+  const [selectedDate, setSelectedDate] = useState(params?.date ?? new Date());
+  const [mealCategory, setMealCategory] = useState<MealCategory>(params?.mealCategory ?? MealCategory.BREAKFAST);
   const [mealCategoryMenuVisible, setMealCategoryMenuVisible] = useState(false);
 
   const { dailyMeals, removeMeal } = useMealPlanner();
 
   const meals = dailyMeals.get(selectedDate.toDateString());
+
+  const navigation = useNavigation<MaterialBottomTabNavigationProp<RootTabParamList>>();
+
+  function gotToFoodDatabase() {
+    navigation.navigate('FoodStack', {
+      screen: 'Food database',
+      params: {
+        date: selectedDate,
+        mealCategory,
+      },
+    });
+  }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -42,8 +58,8 @@ export default function MealPlanningScreen() {
           />
         ))}
       </Menu>
-      {meals ? (
-        <View style={styles.mealContainer}>
+      <View style={styles.mealContainer}>
+        {meals ? (
           <FlatList
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.mealListContainer}
@@ -60,11 +76,13 @@ export default function MealPlanningScreen() {
             )}
             keyExtractor={(item) => item.id.toString()}
           />
-          <Button mode="text" compact>
-            Add Meal
-          </Button>
-        </View>
-      ) : null}
+        ) : (
+          <View style={styles.container} />
+        )}
+        <Button mode="text" compact onPress={gotToFoodDatabase}>
+          Add Meal
+        </Button>
+      </View>
     </View>
   );
 }
