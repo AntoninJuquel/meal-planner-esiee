@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import {API_KEY} from '@env'
 
 import { RecipeRequest, RecipeResponse } from '@/types/FoodApi';
 
@@ -7,7 +8,7 @@ const BASE_URL = 'https://api.spoonacular.com/';
 const instance = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'x-api-key': process.env.API_KEY,
+    'x-api-key': API_KEY,
     'Content-Type': 'application/json',
   },
   responseType: 'json',
