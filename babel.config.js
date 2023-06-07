@@ -8,7 +8,7 @@ const moduleResolverConfig = [
   },
 ];
 
-const dotEnvDevelopment = [
+const dotEnv = [
   'module:react-native-dotenv',
   {
     moduleName: '@env',
@@ -24,7 +24,7 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: ['babel-preset-expo'],
-    plugins: [moduleResolverConfig, dotEnvDevelopment],
+    plugins: [moduleResolverConfig, dotEnv],
     env: {
       production: {
         plugins: ['react-native-paper/babel'],
