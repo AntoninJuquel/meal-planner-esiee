@@ -12,21 +12,21 @@ import { calculateBMR } from '@/utils/calculateBMR';
 import { activityLevelIcon } from '@/utils/activityLevel';
 import { healthGoalIcon } from '@/utils/healthGoal';
 import { genderIcon } from '@/utils/gender';
+import EnumButtonGroup from '@/components/EnumButtonGroup';
+import { useMealPlanner } from '@/context/MealPlannerContext';
 
 const HEALTH_GOALS = 'healthGoals';
 
 export default function ProfileScreen() {
-  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
 
+  const { bmr, setBMR } = useMealPlanner();
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<Gender>(Gender.Male);
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [activityLevel, setActivityLevel] = useState<ActivityLevel>(ActivityLevel.MODERATE);
   const [healthGoal, setHealthGoal] = useState<HealthGoal>(HealthGoal.MAINTAIN);
-
-  const [bmr, setBMR] = useState(0);
 
   function toggleGender() {
     setGender((prev) => {
@@ -83,6 +83,9 @@ export default function ProfileScreen() {
   return (
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss} accessible={false}>
       <View style={[styles.container, { paddingTop: insets.top }]}>
+        <Text style={styles.text} variant="titleLarge">
+          Meal Shape
+        </Text>
         <View style={{ flex: 1 }}>
           <TextInput mode="outlined" label="Age" value={age} onChangeText={setAge} keyboardType="decimal-pad" />
           <IconButton icon={genderIcon(gender)} onPress={toggleGender} />
@@ -104,42 +107,20 @@ export default function ProfileScreen() {
             placeholder="(kg)"
             right={<TextInput.Affix text="kg" />}
           />
-          <View style={{ flexDirection: 'column', gap: 8, marginTop: 8 }}>
-            <Text style={styles.text} variant="titleLarge">
-              Activity Level
-            </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              {Object.values(ActivityLevel).map((level) => (
-                <IconButton
-                  key={level}
-                  icon={activityLevelIcon(level)}
-                  onPress={() => setActivityLevel(level)}
-                  iconColor={level === activityLevel ? colors.background : colors.onBackground}
-                  containerColor={level === activityLevel ? colors.tertiary : colors.elevation.level0}
-                />
-              ))}
-            </View>
-            <Text style={styles.text} variant="titleSmall">
-              {activityLevel}
-            </Text>
-            <Text style={styles.text} variant="titleLarge">
-              Health Goal
-            </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              {Object.values(HealthGoal).map((goal) => (
-                <IconButton
-                  key={goal}
-                  icon={healthGoalIcon(goal)}
-                  onPress={() => setHealthGoal(goal)}
-                  iconColor={goal === healthGoal ? colors.background : colors.onBackground}
-                  containerColor={goal === healthGoal ? colors.tertiary : colors.elevation.level0}
-                />
-              ))}
-            </View>
-            <Text style={styles.text} variant="titleSmall">
-              {healthGoal}
-            </Text>
-          </View>
+          <EnumButtonGroup<ActivityLevel>
+            title="Activity Level"
+            values={Object.values(ActivityLevel)}
+            selected={activityLevel}
+            setSelected={setActivityLevel}
+            icons={activityLevelIcon}
+          />
+          <EnumButtonGroup<HealthGoal>
+            title="Health Goal"
+            values={Object.values(HealthGoal)}
+            selected={healthGoal}
+            setSelected={setHealthGoal}
+            icons={healthGoalIcon}
+          />
         </View>
         <View>
           <Text style={styles.text} variant="titleLarge">

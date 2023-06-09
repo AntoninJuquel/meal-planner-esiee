@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Button, Menu, Chip, IconButton, useTheme, Badge } from 'react-native-paper';
+import { Button, Chip, IconButton, useTheme, Badge, Tooltip } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import type { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
@@ -19,7 +19,7 @@ export default function MealPlanningScreen() {
   const [selectedDate, setSelectedDate] = useState(params?.date ?? new Date());
   const [mealCategory, setMealCategory] = useState<MealCategory>(params?.mealCategory ?? MealCategory.BREAKFAST);
 
-  const { dailyMeals, removeMeal } = useMealPlanner();
+  const { dailyMeals, bmr, removeMeal } = useMealPlanner();
 
   const meals = dailyMeals.get(selectedDate.toDateString());
 

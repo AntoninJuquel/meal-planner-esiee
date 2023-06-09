@@ -7,10 +7,12 @@ import { Recipe } from '@/types/FoodApi';
 const DAILY_MEALS_KEY = 'dailyMeals';
 
 type MealPlannerContextState = {
+  bmr: number;
   dailyMeals: Map<string, DailyMeal>;
 };
 
 type MealPlannerContextAction = {
+  setBMR: (bmr: number) => void;
   addMeal: (date: Date, mealCategory: MealCategory, recipe: Recipe) => void;
   removeMeal: (date: Date, mealCategory: MealCategory, recipe: Recipe) => void;
 };
@@ -18,12 +20,15 @@ type MealPlannerContextAction = {
 interface MealPlannerContextType extends MealPlannerContextState, MealPlannerContextAction {}
 
 const MealPlannerContext = createContext<MealPlannerContextType>({
+  bmr: 0,
   dailyMeals: new Map(),
+  setBMR: () => {},
   addMeal: () => {},
   removeMeal: () => {},
 });
 
 export function MealPlannerProvider({ children }: { children: React.ReactNode }) {
+  const [bmr, setBMR] = useState(0);
   const [dailyMeals, setDailyMeals] = useState<Map<string, DailyMeal>>(new Map());
 
   useEffect(() => {
@@ -97,11 +102,13 @@ export function MealPlannerProvider({ children }: { children: React.ReactNode })
 
   const value = useMemo(
     () => ({
+      bmr,
       dailyMeals,
+      setBMR,
       addMeal,
       removeMeal,
     }),
-    [dailyMeals, addMeal, removeMeal]
+    [bmr, dailyMeals, setBMR, addMeal, removeMeal]
   );
 
   return <MealPlannerContext.Provider value={value}>{children}</MealPlannerContext.Provider>;
