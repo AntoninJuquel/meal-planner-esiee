@@ -13,8 +13,8 @@ export enum Days {
 export enum MealCategory {
   BREAKFAST = 'breakfast',
   LUNCH = 'lunch',
-  DINNER = 'dinner',
   SNACK = 'snack',
+  DINNER = 'dinner',
 }
 
 export type DailyMeal = {

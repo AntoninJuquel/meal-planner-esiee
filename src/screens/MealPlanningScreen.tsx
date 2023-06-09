@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Button, Menu, Chip } from 'react-native-paper';
+import { Button, Menu, Chip, IconButton, useTheme, Badge } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import type { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
@@ -10,13 +10,14 @@ import DateWheel from '@/components/DateWheel';
 import { MealCategory } from '@/types/Meal';
 import RecipeCard from '@/components/RecipeCard';
 import { RootTabParamList } from '@/routes';
+import { mealCategoryIcon } from '@/utils/mealCategory';
 
 export default function MealPlanningScreen() {
+  const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { params } = useRoute<RouteProp<RootTabParamList, 'Meal Planning'>>();
   const [selectedDate, setSelectedDate] = useState(params?.date ?? new Date());
   const [mealCategory, setMealCategory] = useState<MealCategory>(params?.mealCategory ?? MealCategory.BREAKFAST);
-  const [mealCategoryMenuVisible, setMealCategoryMenuVisible] = useState(false);
 
   const { dailyMeals, removeMeal } = useMealPlanner();
 
@@ -39,25 +40,27 @@ export default function MealPlanningScreen() {
       <DateWheel onDateChange={setSelectedDate} selectedDate={selectedDate} />
       <View style={styles.chipsContainer}>
         <Chip compact>{meals?.calories.toFixed(0) ?? 0} cal</Chip>
-        <Chip compact>{meals?.protein.toFixed(0) ?? 0} g</Chip>
-        <Chip compact>{meals?.carbs.toFixed(0) ?? 0} g</Chip>
-        <Chip compact>{meals?.fat.toFixed(0) ?? 0} g</Chip>
       </View>
-      <Menu
-        visible={mealCategoryMenuVisible}
-        onDismiss={() => setMealCategoryMenuVisible(false)}
-        anchor={<Button onPress={() => setMealCategoryMenuVisible(true)}>{mealCategory}</Button>}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         {Object.values(MealCategory).map((category) => (
-          <Menu.Item
-            key={category}
-            title={category}
-            onPress={() => {
-              setMealCategory(category);
-              setMealCategoryMenuVisible(false);
-            }}
-          />
+          <View key={category}>
+            <IconButton
+              icon={mealCategoryIcon(category)}
+              onPress={() => setMealCategory(category)}
+              iconColor={category === mealCategory ? colors.background : colors.onBackground}
+              containerColor={category === mealCategory ? colors.tertiary : colors.elevation.level0}
+            />
+            <Badge
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+              }}>
+              {meals?.[category].length ?? 0}
+            </Badge>
+          </View>
         ))}
-      </Menu>
+      </View>
       <View style={styles.mealContainer}>
         {meals ? (
           <FlatList

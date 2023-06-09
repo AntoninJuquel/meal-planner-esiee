@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Dialog, Text, Button, Menu, Portal } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { Dialog, Text, Button, Menu, Portal, IconButton, useTheme } from 'react-native-paper';
 import { DatePickerModal } from 'react-native-paper-dates';
 
 import { MealCategory } from '@/types/Meal';
+import { mealCategoryIcon } from '@/utils/mealCategory';
 
 type Props = {
   visible: boolean;
@@ -12,19 +13,14 @@ type Props = {
 };
 
 export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) {
+  const { colors } = useTheme();
   const [inputDate, setInputDate] = useState<Date | undefined>(new Date());
   const [inputDateOpen, setInputDateOpen] = useState(false);
   const [mealCategory, setMealCategory] = useState<MealCategory>(MealCategory.BREAKFAST);
-  const [mealCategoryMenuVisible, setMealCategoryMenuVisible] = useState(false);
 
   const selectDate = (date: Date | undefined) => {
     setInputDate(date);
     setInputDateOpen(false);
-  };
-
-  const selectMealCategory = (meal: MealCategory) => {
-    setMealCategory(meal);
-    setMealCategoryMenuVisible(false);
   };
 
   const handleAddMeal = () => {
@@ -52,14 +48,17 @@ export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) 
           <Text style={styles.text} variant="titleLarge">
             {mealCategory}
           </Text>
-          <Menu
-            visible={mealCategoryMenuVisible}
-            onDismiss={() => setMealCategoryMenuVisible(false)}
-            anchor={<Button onPress={() => setMealCategoryMenuVisible(true)}>choose meal</Button>}>
-            {Object.values(MealCategory).map((meal) => (
-              <Menu.Item key={meal} onPress={() => selectMealCategory(meal)} title={meal} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {Object.values(MealCategory).map((category) => (
+              <IconButton
+                key={category}
+                icon={mealCategoryIcon(category)}
+                onPress={() => setMealCategory(category)}
+                iconColor={category === mealCategory ? colors.background : colors.onBackground}
+                containerColor={category === mealCategory ? colors.tertiary : colors.elevation.level0}
+              />
             ))}
-          </Menu>
+          </View>
         </Dialog.Content>
         <Dialog.Actions>
           <Button onPress={close}>Cancel</Button>

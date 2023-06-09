@@ -9,6 +9,7 @@ import FoodDetailScreen from '@/screens/FoodStack/FoodDetailScreen';
 
 import { Recipe } from '@/types/FoodApi';
 import { MealCategory } from '@/types/Meal';
+import { NavigationTheme } from 'react-native-paper/lib/typescript/src/types';
 
 export type FoodStackParamList = {
   'Food database': { date: Date; mealCategory: MealCategory } | undefined;
@@ -69,9 +70,13 @@ function RootTabs() {
   );
 }
 
-export default function Routes() {
+type Props = {
+  navigationTheme: NavigationTheme;
+};
+
+export default function Routes({ navigationTheme }: Props) {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navigationTheme}>
       <RootTabs />
     </NavigationContainer>
   );

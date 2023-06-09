@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, FlatList, TextInput as TextInputBase } from 'react-native';
-import { TextInput, Snackbar } from 'react-native-paper';
+import { TextInput, Snackbar, ActivityIndicator, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AxiosError } from 'axios';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
@@ -9,10 +9,11 @@ import type { MaterialBottomTabNavigationProp } from '@react-navigation/material
 import FoodApiService from '@/services/FoodApiService';
 
 import RecipeCard from '@/components/RecipeCard';
-import { Recipe } from '@/types/FoodApi';
+import { Recipe, RecipeResponse } from '@/types/FoodApi';
 import { FoodStackParamList, RootTabParamList } from '@/routes';
 import { useMealPlanner } from '@/context/MealPlannerContext';
 import AddMealPlanDialog from '@/components/AddMealPlanDialog';
+import { set } from 'date-fns';
 
 export default function FoodDatabaseScreen() {
   const { addMeal } = useMealPlanner();
@@ -44,18 +45,27 @@ export default function FoodDatabaseScreen() {
 
   const inputRef = useRef<TextInputBase>(null);
 
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<RecipeResponse>();
   const [snackbar, setSnackbar] = useState({
     visible: false,
     message: '',
   });
 
   async function search() {
+    setLoading(true);
     try {
-      const res = await FoodApiService.getRecipes({ query: searchQuery, offset: 0, number: 5 });
-      setRecipes(res.data.results);
       inputRef.current?.blur();
+      const res = await FoodApiService.getRecipes({ query: searchQuery, offset: 0, number: 5 });
+      if (res.data.results.length === 0) {
+        setSnackbar({
+          visible: true,
+          message: 'No results found',
+        });
+        setLoading(false);
+      }
+      setRecipes(res.data);
     } catch (err) {
       const error = err as AxiosError;
       setSnackbar({
@@ -63,11 +73,56 @@ export default function FoodDatabaseScreen() {
         message: error.message,
       });
     }
+    setLoading(false);
+  }
+
+  async function loadMore() {
+    if (recipes && recipes.totalResults > 0) {
+      setLoading(true);
+      try {
+        const res = await FoodApiService.getRecipes({
+          query: searchQuery,
+          offset: recipes.offset + recipes.number,
+          number: 5,
+        });
+        const newRecipes = {
+          ...res.data,
+          results: [...recipes.results, ...res.data.results],
+        };
+        if (newRecipes.totalResults === 0) {
+          setSnackbar({
+            visible: true,
+            message: 'No more results',
+          });
+        }
+        setRecipes(newRecipes);
+      } catch (err) {
+        const error = err as AxiosError;
+        setSnackbar({
+          visible: true,
+          message: error.message,
+        });
+      }
+      setLoading(false);
+    }
   }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.content}>
+        <ActivityIndicator
+          animating={loading}
+          hidesWhenStopped
+          size="large"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            marginLeft: -20,
+            marginTop: -20,
+            zIndex: 1,
+          }}
+        />
         <TextInput
           ref={inputRef}
           mode="outlined"
@@ -75,14 +130,17 @@ export default function FoodDatabaseScreen() {
           value={searchQuery}
           onChangeText={setSearchQuery}
           right={<TextInput.Icon icon="magnify" onPress={search} />}
+          onSubmitEditing={search}
         />
         <FlatList
-          data={recipes}
+          data={recipes?.results}
           renderItem={({ item }) => <RecipeCard recipe={item} addAction={onClickAddToMealPlan} />}
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
           contentContainerStyle={{ paddingVertical: 16 }}
+          ListEmptyComponent={() => (recipes ? <Text>No results found</Text> : null)}
+          onEndReached={loadMore}
         />
       </View>
       <AddMealPlanDialog
