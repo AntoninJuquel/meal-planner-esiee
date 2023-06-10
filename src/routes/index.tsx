@@ -1,47 +1,25 @@
 import { NavigationContainer, NavigatorScreenParams } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import HealthGoalScreen from '@/screens/HealthGoalScreen';
 import MealPlanningScreen from '@/screens/MealPlanningScreen';
-import FoodDatabaseScreen from '@/screens/FoodStack/FoodDatabaseScreen';
-import FoodDetailScreen from '@/screens/FoodStack/FoodDetailScreen';
+import FoodDatabaseScreen from '@/screens/FoodDatabaseScreen';
+import FoodDetailScreen from '@/screens/FoodDetailScreen';
 
 import { Recipe } from '@/types/FoodApi';
 import { MealCategory } from '@/types/Meal';
 import { NavigationTheme } from 'react-native-paper/lib/typescript/src/types';
 
-export type FoodStackParamList = {
-  'Food database': { date: Date; mealCategory: MealCategory } | undefined;
-  'Food detail': { recipe: Recipe };
-};
-
-const Stack = createNativeStackNavigator<FoodStackParamList>();
-
-function FoodStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Food database"
-        component={FoodDatabaseScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen name="Food detail" component={FoodDetailScreen} />
-    </Stack.Navigator>
-  );
-}
-
-export type RootTabParamList = {
+export type BottomTabParamsList = {
   'Health Goals': undefined;
-  FoodStack: NavigatorScreenParams<FoodStackParamList>;
-  'Meal Planning': { date: Date; mealCategory: MealCategory } | undefined;
+  'Food database': { date: string; mealCategory: MealCategory } | undefined;
+  'Meal Planning': { date: string; mealCategory: MealCategory } | undefined;
 };
 
-const Tab = createMaterialBottomTabNavigator<RootTabParamList>();
+const Tab = createMaterialBottomTabNavigator<BottomTabParamsList>();
 
-function RootTabs() {
+function BottomTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -52,8 +30,8 @@ function RootTabs() {
         }}
       />
       <Tab.Screen
-        name="FoodStack"
-        component={FoodStack}
+        name="Food database"
+        component={FoodDatabaseScreen}
         options={{
           tabBarIcon: 'food-apple',
           tabBarLabel: 'Food',
@@ -70,6 +48,28 @@ function RootTabs() {
   );
 }
 
+const Stack = createStackNavigator();
+
+export type RootStackParamsList = {
+  BottomTabs: NavigatorScreenParams<BottomTabParamsList>;
+  'Food Detail': { recipe: Recipe };
+};
+
+function RootStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="BottomTabs"
+        component={BottomTabs}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Food Detail" component={FoodDetailScreen} />
+    </Stack.Navigator>
+  );
+}
+
 type Props = {
   navigationTheme: NavigationTheme;
 };
@@ -77,7 +77,7 @@ type Props = {
 export default function Routes({ navigationTheme }: Props) {
   return (
     <NavigationContainer theme={navigationTheme}>
-      <RootTabs />
+      <RootStack />
     </NavigationContainer>
   );
 }

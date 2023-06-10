@@ -24,7 +24,7 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: ['babel-preset-expo'],
-    plugins: [moduleResolverConfig, dotEnv],
+    plugins: [moduleResolverConfig, dotEnv, 'react-native-reanimated/plugin'],
     env: {
       production: {
         plugins: ['react-native-paper/babel'],

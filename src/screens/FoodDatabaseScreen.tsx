@@ -3,48 +3,24 @@ import { View, StyleSheet, FlatList, TextInput as TextInputBase } from 'react-na
 import { TextInput, Snackbar, ActivityIndicator, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AxiosError } from 'axios';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
-import type { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
+import { useRoute, RouteProp, useNavigation, CommonActions } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
 
 import FoodApiService from '@/services/FoodApiService';
 
 import RecipeCard from '@/components/RecipeCard';
 import { Recipe, RecipeResponse } from '@/types/FoodApi';
-import { FoodStackParamList, RootTabParamList } from '@/routes';
+import { BottomTabParamsList, RootStackParamsList } from '@/routes';
 import { useMealPlanner } from '@/context/MealPlannerContext';
 import AddMealPlanDialog from '@/components/AddMealPlanDialog';
-import { set } from 'date-fns';
 
 export default function FoodDatabaseScreen() {
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamsList>>();
+  const { params } = useRoute<RouteProp<BottomTabParamsList, 'Food database'>>();
   const { addMeal } = useMealPlanner();
-  const { params } = useRoute<RouteProp<FoodStackParamList, 'Food database'>>();
-
-  const navigation = useNavigation<MaterialBottomTabNavigationProp<RootTabParamList>>();
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => {
-      navigation.setParams({ date: undefined, mealCategory: undefined });
-    });
-
-    return unsubscribe;
-  }, [navigation]);
 
   const [currentRecipe, setCurrentRecipe] = useState<Recipe>();
-
-  function onClickAddToMealPlan(recipe: Recipe) {
-    const { date, mealCategory } = params || {};
-    if (date && mealCategory) {
-      addMeal(date, mealCategory, recipe);
-      navigation.navigate('Meal Planning', { date, mealCategory });
-    } else {
-      setCurrentRecipe(recipe);
-    }
-  }
-
-  const insets = useSafeAreaInsets();
-
-  const inputRef = useRef<TextInputBase>(null);
-
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [recipes, setRecipes] = useState<RecipeResponse>();
@@ -52,6 +28,21 @@ export default function FoodDatabaseScreen() {
     visible: false,
     message: '',
   });
+
+  const inputRef = useRef<TextInputBase>(null);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      navigation.dispatch(
+        CommonActions.setParams({
+          date: undefined,
+          mealCategory: undefined,
+        })
+      );
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   async function search() {
     setLoading(true);
@@ -74,6 +65,28 @@ export default function FoodDatabaseScreen() {
       });
     }
     setLoading(false);
+  }
+
+  async function onClickAddToMealPlan(recipe: Recipe) {
+    setLoading(true);
+    const { date, mealCategory } = params || {};
+    if (date && mealCategory) {
+      await addMeal(date, mealCategory, recipe);
+      navigation.navigate('BottomTabs', {
+        screen: 'Meal Planning',
+        params: {
+          date,
+          mealCategory,
+        },
+      });
+    } else {
+      setCurrentRecipe(recipe);
+    }
+    setLoading(false);
+  }
+
+  function onClickOpenRecipe(recipe: Recipe) {
+    navigation.navigate('Food Detail', { recipe });
   }
 
   async function loadMore() {
@@ -134,7 +147,9 @@ export default function FoodDatabaseScreen() {
         />
         <FlatList
           data={recipes?.results}
-          renderItem={({ item }) => <RecipeCard recipe={item} addAction={onClickAddToMealPlan} />}
+          renderItem={({ item }) => (
+            <RecipeCard recipe={item} addAction={onClickAddToMealPlan} openAction={onClickOpenRecipe} />
+          )}
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
@@ -148,7 +163,7 @@ export default function FoodDatabaseScreen() {
         close={() => setCurrentRecipe(undefined)}
         onAddMeal={(date, mealCategory) => {
           if (currentRecipe) {
-            addMeal(date, mealCategory, currentRecipe);
+            addMeal(date.toDateString(), mealCategory, currentRecipe);
           }
         }}
       />

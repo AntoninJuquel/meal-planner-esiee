@@ -82,8 +82,6 @@ export default function DateWheel({ onDateChange, selectedDate }: DateWheelProps
 
 const styles = StyleSheet.create({
   container: {
-    width: '95%',
-    marginHorizontal: '2.5%',
     height: 75,
     borderRadius: 10,
     borderWidth: 1,

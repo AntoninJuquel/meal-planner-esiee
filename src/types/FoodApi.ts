@@ -33,7 +33,6 @@ export type Recipe = {
   diets: string[];
   gaps: string;
   glutenFree: boolean;
-  instructions: string;
   ketogenic?: boolean;
   lowFodmap: boolean;
   occasions: string[];

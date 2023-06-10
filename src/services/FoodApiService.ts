@@ -31,7 +31,7 @@ export default {
   ) {
     return this.call<RecipeResponse>(
       'GET',
-      `recipes/complexSearch?query=${query}&addRecipeNutrition=true&number=${number}&offset=${offset}`
+      `recipes/complexSearch?query=${query}&addRecipeNutrition=true&fillIngredients=true&number=${number}&offset=${offset}`
     );
   },
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import { TextInput, IconButton, Menu, Chip, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -81,14 +81,29 @@ export default function ProfileScreen() {
   }, [age, height, weight, gender, activityLevel, healthGoal]);
 
   return (
-    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss} accessible={false}>
-      <View style={[styles.container, { paddingTop: insets.top }]}>
+    <TouchableWithoutFeedback style={styles.container} onPress={Keyboard.dismiss} accessible={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: insets.bottom,
+          paddingTop: insets.top,
+          paddingHorizontal: 16,
+        }}>
         <Text style={styles.text} variant="titleLarge">
           Meal Shape
         </Text>
-        <View style={{ flex: 1 }}>
-          <TextInput mode="outlined" label="Age" value={age} onChangeText={setAge} keyboardType="decimal-pad" />
-          <IconButton icon={genderIcon(gender)} onPress={toggleGender} />
+        <View>
+          <View style={styles.row}>
+            <TextInput
+              mode="outlined"
+              label="Age"
+              value={age}
+              onChangeText={setAge}
+              keyboardType="decimal-pad"
+              style={{ flex: 1 }}
+            />
+            <IconButton icon={genderIcon(gender)} onPress={toggleGender} />
+          </View>
           <TextInput
             mode="outlined"
             label="Height"
@@ -128,7 +143,7 @@ export default function ProfileScreen() {
           </Text>
           <Text style={styles.text}>{bmr.toFixed(0)} calories/day</Text>
         </View>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
@@ -136,7 +151,9 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+  },
+  row: {
+    flexDirection: 'row',
   },
   text: {
     textAlign: 'center',

@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,6 +12,7 @@ import { MealPlannerProvider } from '@/context/MealPlannerContext';
 import { useColorScheme } from 'react-native';
 import { PreferencesContext } from '@/context/PreferencesContext';
 import themes from '@/themes';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 registerTranslation('en', en);
 
@@ -58,7 +60,9 @@ export default function App() {
         <PreferencesContext.Provider value={preferences}>
           <PaperProvider theme={theme.paper}>
             <StatusBar style={isThemeDark ? 'light' : 'dark'} translucent backgroundColor="transparent" />
-            <Routes navigationTheme={theme.navigation} />
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <Routes navigationTheme={theme.navigation} />
+            </GestureHandlerRootView>
           </PaperProvider>
         </PreferencesContext.Provider>
       </MealPlannerProvider>
