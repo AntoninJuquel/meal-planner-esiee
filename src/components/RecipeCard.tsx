@@ -49,9 +49,16 @@ export default function RecipeCard({ recipe, addAction, deleteAction, openAction
     </Card>
   );
 
-  if (deleteAction) {
+  if (deleteAction || openAction) {
     return (
-      <Swipeable ref={swipeableRef} renderLeftActions={() => <IconButton icon="delete" onPress={deleteAction} />}>
+      <Swipeable
+        ref={swipeableRef}
+        renderLeftActions={() => (
+          <View>
+            {deleteAction ? <IconButton icon="delete" onPress={deleteAction} /> : null}
+            {openAction ? <IconButton icon="chef-hat" onPress={() => openAction(recipe)} /> : null}
+          </View>
+        )}>
         <Item />
       </Swipeable>
     );
