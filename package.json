@@ -10,7 +10,13 @@
     "lint": "eslint . --ext .ts,.tsx --fix",
     "lint:check": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build": "eas build --platform all",
+    "build:android": "eas build --platform android",
+    "build:ios": "eas build --platform ios",
+    "preview": "eas build --platform all --profile preview",
+    "preview:android": "eas build --platform android --profile preview",
+    "preview:ios": "eas build --platform ios --profile preview"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.17.11",
