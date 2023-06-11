@@ -97,18 +97,18 @@ export default function MealPlanningScreen() {
             style={styles.container}
             data={meals[mealCategory]}
             ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <RecipeCard
                 recipe={item}
                 deleteAction={async () => {
                   setLoading(true);
-                  await removeMeal(selectedDate.toDateString(), mealCategory, item);
+                  await removeMeal(selectedDate.toDateString(), mealCategory, index);
                   setLoading(false);
                 }}
                 openAction={() => onClickOpenRecipe(item)}
               />
             )}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item, index) => index.toString()}
           />
         ) : (
           <View style={styles.container} />

@@ -15,56 +15,63 @@ type Props = {
 
 export default function RecipeCard({ recipe, addAction, deleteAction, openAction }: Props) {
   const recipeSummary = summarizeRecipe(recipe);
-
   const swipeableRef = useRef<Swipeable>(null);
 
-  const Item = () => (
-    <Card onLongPress={() => swipeableRef.current?.openLeft()} onPress={() => openAction?.(recipe)}>
-      <Card.Title title={recipeSummary.title} titleStyle={{ textAlignVertical: 'center' }} />
-      <Card.Cover source={{ uri: recipeSummary.image }} resizeMode="cover" />
-      <Card.Content style={styles.chips}>
-        <Chip compact textStyle={styles.chipText}>
-          {recipeSummary.calories.toFixed(0)} cal
-        </Chip>
-        <Chip compact textStyle={styles.chipText}>
-          {recipeSummary.fat.toFixed(0)}g fat
-        </Chip>
-        <Chip compact textStyle={styles.chipText}>
-          {recipeSummary.carbs.toFixed(0)}g carbs
-        </Chip>
-        <Chip compact textStyle={styles.chipText}>
-          {recipeSummary.protein.toFixed(0)}g protein
-        </Chip>
-      </Card.Content>
-      <Card.Content style={styles.chips}>
-        <Chip icon="clock-outline">{recipeSummary.readyInMinutes} minutes</Chip>
-      </Card.Content>
-      <Card.Actions>
-        {addAction ? (
-          <Button icon="plus" onPress={() => addAction(recipe)}>
-            Add to meal plan
-          </Button>
-        ) : null}
-      </Card.Actions>
-    </Card>
+  const renderLeftActions = () => (
+    <View>
+      {deleteAction ? (
+        <IconButton
+          icon="delete"
+          onPress={() => {
+            swipeableRef.current?.close();
+            deleteAction();
+          }}
+        />
+      ) : null}
+      {openAction ? (
+        <IconButton
+          icon="chef-hat"
+          onPress={() => {
+            swipeableRef.current?.close();
+            openAction(recipe);
+          }}
+        />
+      ) : null}
+    </View>
   );
 
-  if (deleteAction || openAction) {
-    return (
-      <Swipeable
-        ref={swipeableRef}
-        renderLeftActions={() => (
-          <View>
-            {deleteAction ? <IconButton icon="delete" onPress={deleteAction} /> : null}
-            {openAction ? <IconButton icon="chef-hat" onPress={() => openAction(recipe)} /> : null}
-          </View>
-        )}>
-        <Item />
-      </Swipeable>
-    );
-  }
-
-  return <Item />;
+  return (
+    <Swipeable ref={swipeableRef} renderLeftActions={renderLeftActions}>
+      <Card onLongPress={() => swipeableRef.current?.openLeft()} onPress={() => openAction?.(recipe)}>
+        <Card.Title title={recipeSummary.title} titleStyle={{ textAlignVertical: 'center' }} />
+        <Card.Cover source={{ uri: recipeSummary.image }} resizeMode="cover" />
+        <Card.Content style={styles.chips}>
+          <Chip compact textStyle={styles.chipText}>
+            {recipeSummary.calories.toFixed(0)} cal
+          </Chip>
+          <Chip compact textStyle={styles.chipText}>
+            {recipeSummary.fat.toFixed(0)}g fat
+          </Chip>
+          <Chip compact textStyle={styles.chipText}>
+            {recipeSummary.carbs.toFixed(0)}g carbs
+          </Chip>
+          <Chip compact textStyle={styles.chipText}>
+            {recipeSummary.protein.toFixed(0)}g protein
+          </Chip>
+        </Card.Content>
+        <Card.Content style={styles.chips}>
+          <Chip icon="clock-outline">{recipeSummary.readyInMinutes} minutes</Chip>
+        </Card.Content>
+        <Card.Actions>
+          {addAction ? (
+            <Button icon="plus" onPress={() => addAction(recipe)}>
+              Add to meal plan
+            </Button>
+          ) : null}
+        </Card.Actions>
+      </Card>
+    </Swipeable>
+  );
 }
 
 const styles = StyleSheet.create({

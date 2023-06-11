@@ -5,7 +5,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { toFraction } from 'fraction-parser';
 
 import { RootStackParamsList } from '@/routes';
-import { Equipment } from '@/types/FoodApi';
+import { Equipment, ExtendedIngredient } from '@/types/FoodApi';
 import { summarizeRecipe } from '@/utils/recipes';
 
 export default function FoodDetailScreen() {
@@ -18,6 +18,9 @@ export default function FoodDetailScreen() {
     recipe.analyzedInstructions
       .flatMap((instruction) => instruction.steps.flatMap((step) => step.equipment))
       .map((equipment) => [equipment.id, equipment])
+  );
+  const ingredients = new Map<number, ExtendedIngredient>(
+    recipe.extendedIngredients.map((ingredient) => [ingredient.id, ingredient])
   );
 
   return (
@@ -51,7 +54,7 @@ export default function FoodDetailScreen() {
           </Card.Content>
           <Card.Title title="Ingredients" titleVariant="titleLarge" />
           <Card.Content style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
-            {recipe.extendedIngredients.map((ingredient) => (
+            {[...ingredients.values()].map((ingredient) => (
               <View key={ingredient.id}>
                 <View style={{ backgroundColor: 'white', borderRadius: 8, padding: 5 }}>
                   <Image
@@ -66,8 +69,8 @@ export default function FoodDetailScreen() {
                   {toFraction((ingredient.amount / recipe.servings) * Number(servings), { useUnicodeVulgar: true })}{' '}
                   {ingredient.unit}
                 </Text>
-                <Text variant="bodyLarge" style={{ textAlign: 'center' }}>
-                  {ingredient.name}
+                <Text variant="bodyMedium" style={{ textAlign: 'center', flexWrap: 'wrap', maxWidth: 100 }}>
+                  {ingredient.nameClean}
                 </Text>
               </View>
             ))}

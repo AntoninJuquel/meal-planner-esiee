@@ -135,6 +135,7 @@ export type ExtendedIngredient = {
   name: string;
   original: string;
   originalName: string;
+  nameClean: string;
   unit: string;
 };
 

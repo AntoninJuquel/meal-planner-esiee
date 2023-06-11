@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import {API_KEY} from '@env'
+import { API_KEY } from '@env';
 
 import { RecipeRequest, RecipeResponse } from '@/types/FoodApi';
 
