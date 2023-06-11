@@ -94,10 +94,6 @@ yarn start
 - [React Native Paper](https://callstack.github.io/react-native-paper/)
 - [React Navigation](https://reactnavigation.org/)
 
-## Privacy Policy
+## [Privacy Policy](https://antoninjuquel.github.io/meal-planner-esiee/privacy)
 
-https://antoninjuquel.github.io/meal-planner-esiee/privacy
-
-## Terms and Conditions
-
-https://antoninjuquel.github.io/meal-planner-esiee/terms
+## [Terms and Conditions](https://antoninjuquel.github.io/meal-planner-esiee/terms)
