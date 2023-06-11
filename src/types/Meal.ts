@@ -1,15 +1,5 @@
 import { Recipe } from './FoodApi';
 
-export enum Days {
-  MONDAY = 'monday',
-  TUESDAY = 'tuesday',
-  WEDNESDAY = 'wednesday',
-  THURSDAY = 'thursday',
-  FRIDAY = 'friday',
-  SATURDAY = 'saturday',
-  SUNDAY = 'sunday',
-}
-
 export enum MealCategory {
   BREAKFAST = 'breakfast',
   LUNCH = 'lunch',

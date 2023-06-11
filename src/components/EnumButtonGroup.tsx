@@ -1,16 +1,23 @@
 import { View, StyleSheet, ViewStyle } from 'react-native';
 import { Text, useTheme, IconButton } from 'react-native-paper';
 
-type Props<T> = {
+type Props<T extends string> = {
   title?: string;
   values: T[];
   selected: T;
-  icons: (value: T) => string;
+  icons: Record<T, string>;
   setSelected: (value: T) => void;
   style?: ViewStyle;
 };
 
-export default function EnumButtonGroup<T>({ values, icons, selected, setSelected, title, style }: Props<T>) {
+export default function EnumButtonGroup<T extends string>({
+  values,
+  icons,
+  selected,
+  setSelected,
+  title,
+  style,
+}: Props<T>) {
   const { colors } = useTheme();
   return (
     <View style={[styles.container, { borderColor: colors.scrim }, style]}>
@@ -23,7 +30,7 @@ export default function EnumButtonGroup<T>({ values, icons, selected, setSelecte
         {values.map((value) => (
           <IconButton
             key={value as string}
-            icon={icons(value)}
+            icon={icons[value]}
             onPress={() => setSelected(value)}
             iconColor={selected === value ? colors.background : colors.onBackground}
             containerColor={selected === value ? colors.tertiary : colors.elevation.level0}

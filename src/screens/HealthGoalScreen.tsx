@@ -8,10 +8,10 @@ import { Gender } from '@/types/Gender';
 import { ActivityLevel } from '@/types/ActivityLevel';
 import { HealthGoal } from '@/types/HealthGoal';
 
-import { calculateBMR } from '@/utils/calculateBMR';
-import { activityLevelIcon } from '@/utils/activityLevel';
-import { healthGoalIcon } from '@/utils/healthGoal';
-import { genderIcon } from '@/utils/gender';
+import { getBmr } from '@/utils/bmr';
+import { activityLevelIcons } from '@/utils/activityLevel';
+import { healthGoalIcons } from '@/utils/healthGoal';
+import { genderIcons } from '@/utils/gender';
 import EnumButtonGroup from '@/components/EnumButtonGroup';
 import { useMealPlanner } from '@/context/MealPlannerContext';
 
@@ -19,9 +19,8 @@ const HEALTH_GOALS = 'healthGoals';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
-  const { colors } = useTheme();
 
-  const { bmr, setBMR } = useMealPlanner();
+  const { dailyCaloriesGoal, setDailyCaloriesGoal } = useMealPlanner();
   const [age, setAge] = useState('');
   const [gender, setGender] = useState<Gender>(Gender.Male);
   const [height, setHeight] = useState('');
@@ -57,7 +56,7 @@ export default function ProfileScreen() {
       return;
     }
 
-    const bmr = calculateBMR({
+    const bmr = getBmr({
       age: Number(age),
       gender,
       height: Number(height),
@@ -78,7 +77,7 @@ export default function ProfileScreen() {
       })
     );
 
-    setBMR(bmr);
+    setDailyCaloriesGoal(bmr);
   }, [age, height, weight, gender, activityLevel, healthGoal]);
 
   return (
@@ -103,7 +102,7 @@ export default function ProfileScreen() {
               keyboardType="decimal-pad"
               style={{ flex: 1 }}
             />
-            <IconButton icon={genderIcon(gender)} onPress={toggleGender} />
+            <IconButton icon={genderIcons[gender]} onPress={toggleGender} />
           </View>
           <TextInput
             mode="outlined"
@@ -128,21 +127,21 @@ export default function ProfileScreen() {
             values={Object.values(ActivityLevel)}
             selected={activityLevel}
             setSelected={setActivityLevel}
-            icons={activityLevelIcon}
+            icons={activityLevelIcons}
           />
           <EnumButtonGroup<HealthGoal>
             title="Health Goal"
             values={Object.values(HealthGoal)}
             selected={healthGoal}
             setSelected={setHealthGoal}
-            icons={healthGoalIcon}
+            icons={healthGoalIcons}
           />
         </View>
         <View>
           <Text style={styles.text} variant="titleLarge">
-            BMR
+            Daily Calories Goal
           </Text>
-          <Text style={styles.text}>{bmr.toFixed(0)} calories/day</Text>
+          <Text style={styles.text}>{dailyCaloriesGoal.toFixed(0)} calories</Text>
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>

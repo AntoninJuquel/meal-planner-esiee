@@ -6,10 +6,10 @@ import { toFraction } from 'fraction-parser';
 
 import { RootStackParamsList } from '@/routes';
 import { Equipment, ExtendedIngredient } from '@/types/FoodApi';
-import { summarizeRecipe } from '@/utils/recipes';
+import { summarizeRecipe } from '@/utils/recipe';
 
-export default function FoodDetailScreen() {
-  const { params } = useRoute<RouteProp<RootStackParamsList, 'Food Detail'>>();
+export default function RecipeScreen() {
+  const { params } = useRoute<RouteProp<RootStackParamsList, 'Recipe'>>();
   const { recipe } = params;
   const [servings, setServings] = useState(recipe.servings.toFixed(0));
 

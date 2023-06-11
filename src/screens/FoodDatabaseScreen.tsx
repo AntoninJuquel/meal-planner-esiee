@@ -8,7 +8,7 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 
 import FoodApiService from '@/services/FoodApiService';
 
-import RecipeCard from '@/components/RecipeCard';
+import FoodCard from '@/components/FoodCard';
 import { Recipe, RecipeResponse } from '@/types/FoodApi';
 import { BottomTabParamsList, RootStackParamsList } from '@/routes';
 import { useMealPlanner } from '@/context/MealPlannerContext';
@@ -86,7 +86,7 @@ export default function FoodDatabaseScreen() {
   }
 
   function onClickOpenRecipe(recipe: Recipe) {
-    navigation.navigate('Food Detail', { recipe });
+    navigation.navigate('Recipe', { recipe });
   }
 
   async function loadMore() {
@@ -148,7 +148,7 @@ export default function FoodDatabaseScreen() {
         <FlatList
           data={recipes?.results}
           renderItem={({ item }) => (
-            <RecipeCard recipe={item} addAction={onClickAddToMealPlan} openAction={onClickOpenRecipe} />
+            <FoodCard recipe={item} addAction={onClickAddToMealPlan} openAction={onClickOpenRecipe} />
           )}
           keyExtractor={(item) => item.id.toString()}
           showsVerticalScrollIndicator={false}
@@ -160,7 +160,7 @@ export default function FoodDatabaseScreen() {
       </View>
       <AddMealPlanDialog
         visible={Boolean(currentRecipe)}
-        close={() => setCurrentRecipe(undefined)}
+        onDismiss={() => setCurrentRecipe(undefined)}
         onAddMeal={(date, mealCategory) => {
           if (currentRecipe) {
             addMeal(date.toDateString(), mealCategory, currentRecipe);

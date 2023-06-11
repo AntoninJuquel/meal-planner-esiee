@@ -1,14 +1,13 @@
 import { HealthGoal } from '@/types/HealthGoal';
 
-export function healthGoalIcon(healthGoal: HealthGoal) {
-  switch (healthGoal) {
-    case HealthGoal.LOSE:
-      return 'numeric-negative-1';
-    case HealthGoal.MAINTAIN:
-      return 'numeric-0';
-    case HealthGoal.GAIN:
-      return 'numeric-positive-1';
-    default:
-      return '';
-  }
-}
+export const healthGoalTerms = {
+  [HealthGoal.LOSE]: -500,
+  [HealthGoal.MAINTAIN]: 0,
+  [HealthGoal.GAIN]: 500,
+};
+
+export const healthGoalIcons = {
+  [HealthGoal.LOSE]: 'numeric-negative-1',
+  [HealthGoal.MAINTAIN]: 'numeric-0',
+  [HealthGoal.GAIN]: 'numeric-positive-1',
+};

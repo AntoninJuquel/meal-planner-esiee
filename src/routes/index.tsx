@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HealthGoalScreen from '@/screens/HealthGoalScreen';
 import MealPlanningScreen from '@/screens/MealPlanningScreen';
 import FoodDatabaseScreen from '@/screens/FoodDatabaseScreen';
-import FoodDetailScreen from '@/screens/FoodDetailScreen';
+import RecipeScreen from '@/screens/RecipeScreen';
 
 import { Recipe } from '@/types/FoodApi';
 import { MealCategory } from '@/types/Meal';
@@ -53,7 +53,7 @@ const Stack = createStackNavigator();
 
 export type RootStackParamsList = {
   BottomTabs: NavigatorScreenParams<BottomTabParamsList>;
-  'Food Detail': { recipe: Recipe };
+  Recipe: { recipe: Recipe };
 };
 
 function RootStack() {
@@ -67,8 +67,8 @@ function RootStack() {
         }}
       />
       <Stack.Screen
-        name="Food Detail"
-        component={FoodDetailScreen}
+        name="Recipe"
+        component={RecipeScreen}
         options={({ route }) => {
           const params = route?.params as { recipe: Recipe };
           return {

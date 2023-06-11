@@ -4,7 +4,7 @@ import { Button, Card, Chip, IconButton, useTheme } from 'react-native-paper';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 import { Recipe } from '@/types/FoodApi';
-import { summarizeRecipe } from '@/utils/recipes';
+import { summarizeRecipe } from '@/utils/recipe';
 
 type Props = {
   recipe: Recipe;

@@ -41,11 +41,12 @@ git clone https://github.com/AntoninJuquel/meal-planner-esiee
 yarn install
 ```
 
-### 2. b In case of error, remove yarn.lock and node_modules
+### 2. b In case of error, remove yarn.lock and node_modules and install dependencies again
 
 ```bash
 rm yarn.lock
 rm -rf node_modules
+yarn install
 ```
 
 ### 3. API key

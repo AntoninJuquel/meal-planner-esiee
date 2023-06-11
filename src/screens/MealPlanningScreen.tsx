@@ -8,9 +8,9 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import { useMealPlanner } from '@/context/MealPlannerContext';
 import DateWheel from '@/components/DateWheel';
 import { MealCategory } from '@/types/Meal';
-import RecipeCard from '@/components/RecipeCard';
+import FoodCard from '@/components/FoodCard';
 import { BottomTabParamsList, RootStackParamsList } from '@/routes';
-import { mealCategoryIcon } from '@/utils/mealCategory';
+import { mealCategoryIcons } from '@/utils/mealCategory';
 import { interpolateColor } from '@/utils/interpolateColor';
 import { Recipe } from '@/types/FoodApi';
 
@@ -19,13 +19,13 @@ export default function MealPlanningScreen() {
   const { colors } = useTheme();
   const insets = useSafeAreaInsets();
   const { params } = useRoute<RouteProp<BottomTabParamsList, 'Meal Planning'>>();
-  const { dailyMeals, bmr, removeMeal } = useMealPlanner();
+  const { mealPlan, dailyCaloriesGoal, removeMeal } = useMealPlanner();
 
   const [selectedDate, setSelectedDate] = useState(new Date(params?.date ?? Date.now()));
   const [mealCategory, setMealCategory] = useState<MealCategory>(params?.mealCategory ?? MealCategory.BREAKFAST);
   const [loading, setLoading] = useState(false);
 
-  const meals = dailyMeals.get(selectedDate.toDateString());
+  const meals = mealPlan.get(selectedDate.toDateString());
 
   function gotToFoodDatabase() {
     navigation.navigate('BottomTabs', {
@@ -38,10 +38,10 @@ export default function MealPlanningScreen() {
   }
 
   function onClickOpenRecipe(recipe: Recipe) {
-    navigation.navigate('Food Detail', { recipe });
+    navigation.navigate('Recipe', { recipe });
   }
 
-  const ratio = meals && bmr > 0 ? meals.calories / bmr : 0;
+  const ratio = meals && dailyCaloriesGoal > 0 ? meals.calories / dailyCaloriesGoal : 0;
 
   return (
     <View style={[styles.container, { paddingTop: insets.top, paddingHorizontal: 8 }]}>
@@ -67,13 +67,13 @@ export default function MealPlanningScreen() {
           }}>
           Total {meals?.calories.toFixed(0) ?? 0} cal
         </Chip>
-        <Chip compact>Goal {bmr.toFixed(0)} cal</Chip>
+        <Chip compact>Goal {dailyCaloriesGoal.toFixed(0)} cal</Chip>
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         {Object.values(MealCategory).map((category) => (
           <View key={category}>
             <IconButton
-              icon={mealCategoryIcon(category)}
+              icon={mealCategoryIcons[category]}
               onPress={() => setMealCategory(category)}
               iconColor={category === mealCategory ? colors.background : colors.onBackground}
               containerColor={category === mealCategory ? colors.tertiary : colors.elevation.level0}
@@ -98,7 +98,7 @@ export default function MealPlanningScreen() {
             data={meals[mealCategory]}
             ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
             renderItem={({ item, index }) => (
-              <RecipeCard
+              <FoodCard
                 recipe={item}
                 deleteAction={async () => {
                   setLoading(true);

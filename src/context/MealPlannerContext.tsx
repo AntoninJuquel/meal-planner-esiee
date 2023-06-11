@@ -4,15 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DailyMeal, MealCategory } from '@/types/Meal';
 import { Recipe } from '@/types/FoodApi';
 
-const DAILY_MEALS_KEY = 'dailyMeals';
+const MEAL_PLAN_KEY = 'dailyMeals';
 
 type MealPlannerContextState = {
-  bmr: number;
-  dailyMeals: Map<string, DailyMeal>;
+  dailyCaloriesGoal: number;
+  mealPlan: Map<string, DailyMeal>;
 };
 
 type MealPlannerContextAction = {
-  setBMR: (bmr: number) => void;
+  setDailyCaloriesGoal: (dailyCaloriesGoal: number) => void;
   addMeal: (date: string, mealCategory: MealCategory, recipe: Recipe) => Promise<void>;
   removeMeal: (date: string, mealCategory: MealCategory, index: number) => Promise<void>;
 };
@@ -20,25 +20,25 @@ type MealPlannerContextAction = {
 interface MealPlannerContextType extends MealPlannerContextState, MealPlannerContextAction {}
 
 const MealPlannerContext = createContext<MealPlannerContextType>({
-  bmr: 0,
-  dailyMeals: new Map(),
-  setBMR: () => {},
+  dailyCaloriesGoal: 0,
+  mealPlan: new Map(),
+  setDailyCaloriesGoal: () => {},
   addMeal: () => Promise.resolve(),
   removeMeal: () => Promise.resolve(),
 });
 
 export function MealPlannerProvider({ children }: { children: React.ReactNode }) {
-  const [bmr, setBMR] = useState(0);
-  const [dailyMeals, setDailyMeals] = useState<Map<string, DailyMeal>>(new Map());
+  const [dailyCaloriesGoal, setDailyCaloriesGoal] = useState(0);
+  const [mealPlan, setMealPlan] = useState<Map<string, DailyMeal>>(new Map());
 
   useEffect(() => {
-    AsyncStorage.getItem(DAILY_MEALS_KEY).then((value) => {
+    AsyncStorage.getItem(MEAL_PLAN_KEY).then((value) => {
       if (value) {
         try {
           const load = JSON.parse(value);
-          setDailyMeals(new Map(load));
+          setMealPlan(new Map(load));
         } catch (e) {
-          AsyncStorage.removeItem(DAILY_MEALS_KEY);
+          AsyncStorage.removeItem(MEAL_PLAN_KEY);
         }
       }
     });
@@ -46,7 +46,7 @@ export function MealPlannerProvider({ children }: { children: React.ReactNode })
 
   const addMeal = useCallback(
     async (date: string, mealCategory: MealCategory, recipe: Recipe) => {
-      const dailyMeal: DailyMeal = dailyMeals.get(date) ?? {
+      const dailyMeal: DailyMeal = mealPlan.get(date) ?? {
         [MealCategory.BREAKFAST]: [],
         [MealCategory.LUNCH]: [],
         [MealCategory.DINNER]: [],
@@ -64,18 +64,18 @@ export function MealPlannerProvider({ children }: { children: React.ReactNode })
       dailyMeal.fat += recipe.nutrition.nutrients.find((n) => n.name === 'Fat')?.amount ?? 0;
       dailyMeal.protein += recipe.nutrition.nutrients.find((n) => n.name === 'Protein')?.amount ?? 0;
 
-      const newDailyMeals = new Map(dailyMeals.set(date, dailyMeal));
-      const save = JSON.stringify(Array.from(newDailyMeals.entries()));
-      await AsyncStorage.setItem(DAILY_MEALS_KEY, save);
+      const newMealPlan = new Map(mealPlan.set(date, dailyMeal));
+      const save = JSON.stringify(Array.from(newMealPlan.entries()));
+      await AsyncStorage.setItem(MEAL_PLAN_KEY, save);
 
-      setDailyMeals(newDailyMeals);
+      setMealPlan(newMealPlan);
     },
-    [dailyMeals]
+    [mealPlan]
   );
 
   const removeMeal = useCallback(
     async (date: string, mealCategory: MealCategory, index: number) => {
-      const dailyMeal: DailyMeal = dailyMeals.get(date) ?? {
+      const dailyMeal: DailyMeal = mealPlan.get(date) ?? {
         [MealCategory.BREAKFAST]: [],
         [MealCategory.LUNCH]: [],
         [MealCategory.DINNER]: [],
@@ -95,25 +95,25 @@ export function MealPlannerProvider({ children }: { children: React.ReactNode })
         dailyMeal.fat -= recipe.nutrition.nutrients.find((n) => n.name === 'Fat')?.amount ?? 0;
         dailyMeal.protein -= recipe.nutrition.nutrients.find((n) => n.name === 'Protein')?.amount ?? 0;
 
-        const newDailyMeals = new Map(dailyMeals.set(date, dailyMeal));
-        const save = JSON.stringify(Array.from(newDailyMeals.entries()));
-        await AsyncStorage.setItem(DAILY_MEALS_KEY, save);
+        const newMealPlan = new Map(mealPlan.set(date, dailyMeal));
+        const save = JSON.stringify(Array.from(newMealPlan.entries()));
+        await AsyncStorage.setItem(MEAL_PLAN_KEY, save);
 
-        setDailyMeals(newDailyMeals);
+        setMealPlan(newMealPlan);
       }
     },
-    [dailyMeals]
+    [mealPlan]
   );
 
   const value = useMemo(
     () => ({
-      bmr,
-      dailyMeals,
-      setBMR,
+      dailyCaloriesGoal,
+      mealPlan,
+      setDailyCaloriesGoal,
       addMeal,
       removeMeal,
     }),
-    [bmr, dailyMeals, setBMR, addMeal, removeMeal]
+    [dailyCaloriesGoal, mealPlan, setDailyCaloriesGoal, addMeal, removeMeal]
   );
 
   return <MealPlannerContext.Provider value={value}>{children}</MealPlannerContext.Provider>;

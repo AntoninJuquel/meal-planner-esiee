@@ -4,15 +4,15 @@ import { Dialog, Text, Button, Menu, Portal, IconButton, useTheme } from 'react-
 import { DatePickerModal } from 'react-native-paper-dates';
 
 import { MealCategory } from '@/types/Meal';
-import { mealCategoryIcon } from '@/utils/mealCategory';
+import { mealCategoryIcons } from '@/utils/mealCategory';
 
 type Props = {
   visible: boolean;
-  close: () => void;
+  onDismiss: () => void;
   onAddMeal: (date: Date, mealCategory: MealCategory) => void;
 };
 
-export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) {
+export default function AddMealPlanDialog({ onAddMeal, onDismiss, visible }: Props) {
   const { colors } = useTheme();
   const [inputDate, setInputDate] = useState<Date | undefined>(new Date());
   const [inputDateOpen, setInputDateOpen] = useState(false);
@@ -26,12 +26,12 @@ export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) 
   const handleAddMeal = () => {
     if (!inputDate) return;
     onAddMeal(inputDate, mealCategory);
-    close();
+    onDismiss();
   };
 
   return (
     <Portal>
-      <Dialog visible={visible} onDismiss={close}>
+      <Dialog visible={visible} onDismiss={onDismiss}>
         <Dialog.Title>Add to meal plan</Dialog.Title>
         <Dialog.Content style={{ alignItems: 'center' }}>
           <Button onPress={() => setInputDateOpen(true)} uppercase={false} mode="outlined">
@@ -52,7 +52,7 @@ export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) 
             {Object.values(MealCategory).map((category) => (
               <IconButton
                 key={category}
-                icon={mealCategoryIcon(category)}
+                icon={mealCategoryIcons[category]}
                 onPress={() => setMealCategory(category)}
                 iconColor={category === mealCategory ? colors.background : colors.onBackground}
                 containerColor={category === mealCategory ? colors.tertiary : colors.elevation.level0}
@@ -61,7 +61,7 @@ export default function AddMealPlanDialog({ onAddMeal, close, visible }: Props) 
           </View>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button onPress={close}>Cancel</Button>
+          <Button onPress={onDismiss}>Cancel</Button>
           <Button onPress={handleAddMeal}>Add</Button>
         </Dialog.Actions>
       </Dialog>
