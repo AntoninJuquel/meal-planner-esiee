@@ -27,8 +27,6 @@ export default function FoodDetailScreen() {
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={Keyboard.dismiss} accessible={false}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Card>
-          <Card.Title title={recipe.title} titleStyle={{ textAlignVertical: 'center' }} titleVariant="titleLarge" />
-
           <Card.Cover source={{ uri: recipe.image }} />
 
           <Card.Content style={styles.chips}>

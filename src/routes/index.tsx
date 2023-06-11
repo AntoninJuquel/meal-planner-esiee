@@ -10,6 +10,7 @@ import FoodDetailScreen from '@/screens/FoodDetailScreen';
 import { Recipe } from '@/types/FoodApi';
 import { MealCategory } from '@/types/Meal';
 import { NavigationTheme } from 'react-native-paper/lib/typescript/src/types';
+import StackNavigatorHeader from '@/components/StackNavigatorHeader';
 
 export type BottomTabParamsList = {
   'Health Goals': undefined;
@@ -65,7 +66,17 @@ function RootStack() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name="Food Detail" component={FoodDetailScreen} />
+      <Stack.Screen
+        name="Food Detail"
+        component={FoodDetailScreen}
+        options={({ route }) => {
+          const params = route?.params as { recipe: Recipe };
+          return {
+            title: params.recipe.title,
+            header: (props) => <StackNavigatorHeader {...props} />,
+          };
+        }}
+      />
     </Stack.Navigator>
   );
 }

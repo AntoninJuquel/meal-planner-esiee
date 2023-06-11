@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
-import { TextInput, IconButton, Menu, Chip, Text, useTheme } from 'react-native-paper';
+import { TextInput, IconButton, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,6 +19,7 @@ const HEALTH_GOALS = 'healthGoals';
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
 
   const { bmr, setBMR } = useMealPlanner();
   const [age, setAge] = useState('');

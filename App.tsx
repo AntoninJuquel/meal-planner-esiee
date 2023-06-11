@@ -35,7 +35,7 @@ export default function App() {
 
   useEffect(() => {
     NavigationBar.setButtonStyleAsync(isThemeDark ? 'light' : 'dark');
-    NavigationBar.setBackgroundColorAsync(theme.paper.colors.surface);
+    NavigationBar.setBackgroundColorAsync(theme.colors.surface);
     NavigationBar.setVisibilityAsync('hidden');
     NavigationBar.setBehaviorAsync('overlay-swipe');
   }, [isThemeDark, theme]);
@@ -58,10 +58,10 @@ export default function App() {
     <SafeAreaProvider>
       <MealPlannerProvider>
         <PreferencesContext.Provider value={preferences}>
-          <PaperProvider theme={theme.paper}>
+          <PaperProvider theme={theme}>
             <StatusBar style={isThemeDark ? 'light' : 'dark'} translucent backgroundColor="transparent" />
             <GestureHandlerRootView style={{ flex: 1 }}>
-              <Routes navigationTheme={theme.navigation} />
+              <Routes navigationTheme={theme} />
             </GestureHandlerRootView>
           </PaperProvider>
         </PreferencesContext.Provider>
