@@ -4,7 +4,7 @@ import { HealthGoal } from '@/types/HealthGoal';
 
 import { genderBmr } from './gender';
 import { activityLevelMultipliers } from './activityLevel';
-import { healthGoalTerms } from './healthGoal';
+import { healthGoalMultipliers } from './healthGoal';
 
 type Params = {
   age: number;
@@ -16,5 +16,5 @@ type Params = {
 };
 
 export function getBmr({ age, gender, height, weight, activityLevel, goal }: Params): number {
-  return genderBmr(gender, weight, height, age) * activityLevelMultipliers[activityLevel] + healthGoalTerms[goal];
+  return genderBmr(gender, weight, height, age) * activityLevelMultipliers[activityLevel] * healthGoalMultipliers[goal];
 }

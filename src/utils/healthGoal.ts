@@ -1,9 +1,9 @@
 import { HealthGoal } from '@/types/HealthGoal';
 
-export const healthGoalTerms = {
-  [HealthGoal.LOSE]: -500,
-  [HealthGoal.MAINTAIN]: 0,
-  [HealthGoal.GAIN]: 500,
+export const healthGoalMultipliers = {
+  [HealthGoal.LOSE]: 0.9, // 10% deficit
+  [HealthGoal.MAINTAIN]: 1, // 0% deficit
+  [HealthGoal.GAIN]: 1.1, // 10% surplus
 };
 
 export const healthGoalIcons = {
