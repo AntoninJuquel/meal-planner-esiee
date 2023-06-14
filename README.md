@@ -14,6 +14,7 @@
 ## Description
 
 Meal Shape is a mobile application that allows you to calculate your daily calorie needs and to have a personalized meal plan according to your goal (lose weight, gain weight, maintain your weight).
+This is a school [project](https://react-native-course-esiee.netlify.app/blog/project) for the ESIEE Paris engineering school.
 
 ## Technologies
 
@@ -89,6 +90,7 @@ yarn start
 
 ## Acknowledgements
 
+- [School Project](https://react-native-course-esiee.netlify.app/blog/project) 
 - [Spoonacular](https://spoonacular.com/food-api)
 - [Expo](https://expo.io/)
 - [React Native](https://reactnative.dev/)
