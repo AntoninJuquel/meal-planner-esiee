@@ -1,6 +1,6 @@
 # Meal Shape
 
-![DaylyCalorieNeed](./assets/presentation.png)
+![DaylyCalorieNeed](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/presentation.png?raw=true)
 
 ## Download on the Play Store
 
@@ -69,20 +69,20 @@ yarn start
 
 ### 1. Get your daily calorie needs
 
-![DaylyCalorieNeed](./assets/screenshots/daily-calorie-needs.png)
+![DaylyCalorieNeed](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/screenshots/daily-calorie-needs.png?raw=true)
 
 ### 2. Find your favorite recipes
 
-![Recipes](./assets/screenshots/recipes.png)
+![Recipes](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/screenshots/recipes.png?raw=true)
 
 ### 3. Organize your meal plan
 
-![MealPlan](./assets/screenshots/meal-plan.png)
+![MealPlan](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/screenshots/meal-plan.png?raw=true)
 
 ### 4. View the recipes of your meal plan
 
-![Recipe](./assets/screenshots/recipe.png)
-![Instructions](./assets/screenshots/instructions.png)
+![Recipe](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/screenshots/recipe.png?raw=true)
+![Instructions](https://github.com/AntoninJuquel/meal-planner-esiee/blob/master/assets/screenshots/instructions.png?raw=true)
 
 ## License
 
